@@ -36,37 +36,38 @@ function detectSearch(input, btn) {
     input.addEventListener("keyup", function () {
         let cityRead = input.value;
         searchCity(cityRead);
-    })
+    });
     btn.addEventListener("click", searchMeteoApi);
 }
 
 function searchCity(cityRead) {
     let wrapper = document.getElementById("wrapper");
     wrapper.innerHTML = "";
-    let link = "https://api.meteo-concept.com/api/location/cities?token=";
-    fetch(link + token + "&search=" + cityRead).then(function (response) {
+    // let link = "https://api.meteo-concept.com/api/location/cities?token=";
+    let newLink = "https://api-adresse.data.gouv.fr/search/?q=";
+    // fetch(link + token + "&search=" + cityRead).then(function (response) {
+    fetch(newLink + cityRead).then(function (response) {
         return response.json();
     }).then(function (json) {
-        if (cityRead.length > 3) {
-            for (let i = 0; i < 3; i++) {
-                let p = document.createElement("p");
-                p.classList.add("list");
-                p.textContent = json.cities[i].name + ", " + json.cities[i].cp;
-                p.style.cursor = "pointer";
-                wrapper.appendChild(p);
-                p.addEventListener("click", function () {
-                    document.getElementById("inputCity").value = json.cities[i].name;
-                    wrapper.innerHTML = "";
-                    searchMeteoApi();
-                })
-            }
+        for (let i = 0; i < 5; i++) {
+            let p = document.createElement("p");
+            p.classList.add("list");
+            // p.textContent = json.cities[i].name + ", " + json.cities[i].cp;
+            console.log(json.features[i])
+            p.textContent = json.features[i].properties.name + ", " + json.features[i].properties.postcode;
+            p.style.cursor = "pointer";
+            wrapper.appendChild(p);
+            p.addEventListener("click", function () {
+                document.getElementById("inputCity").value = json.features[i].properties.name;
+                wrapper.innerHTML = "";
+                searchMeteoApi(json.features[i].properties.citycode);
+            });
         }
-
     })
 }
 
-function searchMeteoApi() {
-    console.log('plop');
+function searchMeteoApi(insee) {
+    console.log(insee);
 }
 
 init();
