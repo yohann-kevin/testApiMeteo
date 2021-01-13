@@ -1,19 +1,5 @@
 const body = document.getElementById("main");
 
-let city = "&insee=56260";
-let link = "https://api.meteo-concept.com/api/forecast/daily?token=";
-
-let testData = [];
-
-// fetch(link + token + city).then(function (response) {
-//     return response.json();
-// }).then(function (json) {
-//     // console.log(json);
-//     testData.push(json.forecast[0]);
-//     console.log(testData);
-//     console.log(json.city);
-// })
-
 function init() {
     let input = document.createElement("input");
     input.type = "text";
@@ -43,17 +29,13 @@ function detectSearch(input, btn) {
 function searchCity(cityRead) {
     let wrapper = document.getElementById("wrapper");
     wrapper.innerHTML = "";
-    // let link = "https://api.meteo-concept.com/api/location/cities?token=";
     let newLink = "https://api-adresse.data.gouv.fr/search/?q=";
-    // fetch(link + token + "&search=" + cityRead).then(function (response) {
     fetch(newLink + cityRead).then(function (response) {
         return response.json();
     }).then(function (json) {
         for (let i = 0; i < 5; i++) {
             let p = document.createElement("p");
             p.classList.add("list");
-            // p.textContent = json.cities[i].name + ", " + json.cities[i].cp;
-            console.log(json.features[i])
             p.textContent = json.features[i].properties.name + ", " + json.features[i].properties.postcode;
             p.style.cursor = "pointer";
             wrapper.appendChild(p);
@@ -67,7 +49,12 @@ function searchCity(cityRead) {
 }
 
 function searchMeteoApi(insee) {
-    console.log(insee);
+    let link = "https://api.meteo-concept.com/api/forecast/daily?token=";
+    fetch(link + token + "&insee=" + insee).then(function (response) {
+        return response.json();
+    }).then(function (json) {
+        console.log(json);
+    })
 }
 
 init();
