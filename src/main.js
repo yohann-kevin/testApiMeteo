@@ -23,7 +23,7 @@ function detectSearch(input, btn) {
         let cityRead = input.value;
         searchCity(cityRead);
     });
-    btn.addEventListener("click", searchMeteoApi);
+    // btn.addEventListener("click", searchMeteoApi);
 }
 
 function searchCity(cityRead) {
@@ -34,16 +34,19 @@ function searchCity(cityRead) {
         return response.json();
     }).then(function (json) {
         for (let i = 0; i < 5; i++) {
-            let p = document.createElement("p");
-            p.classList.add("list");
-            p.textContent = json.features[i].properties.name + ", " + json.features[i].properties.postcode;
-            p.style.cursor = "pointer";
-            wrapper.appendChild(p);
-            p.addEventListener("click", function () {
-                document.getElementById("inputCity").value = json.features[i].properties.name;
-                wrapper.innerHTML = "";
-                searchMeteoApi(json.features[i].properties.citycode);
-            });
+            if (json.features[i].properties.type != "street") {
+                let p = document.createElement("p");
+                p.classList.add("list");
+                p.textContent = json.features[i].properties.name + ", " + json.features[i].properties.postcode;
+                p.style.cursor = "pointer";
+                wrapper.appendChild(p);
+
+                p.addEventListener("click", function () {
+                    document.getElementById("inputCity").value = json.features[i].properties.name;
+                    wrapper.innerHTML = "";
+                    searchMeteoApi(json.features[i].properties.citycode);
+                });
+            }
         }
     })
 }
@@ -53,7 +56,7 @@ function searchMeteoApi(insee) {
     fetch(link + token + "&insee=" + insee).then(function (response) {
         return response.json();
     }).then(function (json) {
-        console.log(json);
+        // console.log(json);
     })
 }
 
