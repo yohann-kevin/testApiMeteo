@@ -23,7 +23,10 @@ function detectSearch(input, btn) {
         let cityRead = input.value;
         searchCity(cityRead);
     });
-    // btn.addEventListener("click", searchMeteoApi);
+    btn.addEventListener("click", function() {
+        let cityRead = input.value;
+        searchCity(cityRead);
+    });
 }
 
 function searchCity(cityRead) {
@@ -42,13 +45,17 @@ function searchCity(cityRead) {
                 wrapper.appendChild(p);
 
                 p.addEventListener("click", function () {
-                    document.getElementById("inputCity").value = json.features[i].properties.name;
-                    wrapper.innerHTML = "";
-                    searchMeteoApi(json.features[i].properties.citycode);
+                    launchApi(json.features[i].properties, wrapper);
                 });
             }
         }
     })
+}
+
+function launchApi(element, wrapper) {
+    document.getElementById("inputCity").value = element.name;
+    wrapper.innerHTML = "";
+    // searchMeteoApi(element.citycode);
 }
 
 function searchMeteoApi(insee) {
@@ -56,7 +63,7 @@ function searchMeteoApi(insee) {
     fetch(link + token + "&insee=" + insee).then(function (response) {
         return response.json();
     }).then(function (json) {
-        // console.log(json);
+        console.log(json);
     })
 }
 
