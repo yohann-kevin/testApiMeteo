@@ -11,7 +11,7 @@ function init() {
     btn.id = "btnSearchCity";
 
     let div = document.createElement("div");
-    div.id = "wrapper";
+    div.id = "results";
 
     body.appendChild(input);
     body.appendChild(btn);
@@ -33,8 +33,8 @@ function detectSearch(input, btn) {
 
 // fonction permmettant de chercher une vile grace l'api data.gouv
 function searchCity(cityRead) {
-    let wrapper = document.getElementById("wrapper");
-    wrapper.innerHTML = "";
+    let results = document.getElementById("results");
+    results.innerHTML = "";
     let newLink = "https://api-adresse.data.gouv.fr/search/?q=";
     fetch(newLink + cityRead).then(function (response) {
         return response.json();
@@ -45,10 +45,10 @@ function searchCity(cityRead) {
                 p.classList.add("list");
                 p.textContent = json.features[i].properties.name + ", " + json.features[i].properties.postcode;
                 p.style.cursor = "pointer";
-                wrapper.appendChild(p);
+                results.appendChild(p);
 
                 p.addEventListener("click", function () {
-                    launchApi(json.features[i].properties, wrapper);
+                    launchApi(json.features[i].properties, results);
                 });
             }
         }
@@ -56,9 +56,9 @@ function searchCity(cityRead) {
 }
 
 // lance l'api
-function launchApi(element, wrapper) {
+function launchApi(element, results) {
     document.getElementById("inputCity").value = element.name;
-    wrapper.innerHTML = "";
+    results.innerHTML = "";
     searchMeteoApi(element.citycode);
 }
 
@@ -69,12 +69,24 @@ function searchMeteoApi(insee) {
         return response.json();
     }).then(function (json) {
         // information ville
-        console.log(json.city)
+        let cityInformation = [];
+        cityInformation.push(json.city);
+        titleCity(cityInformation[0]);
         // prévision météo sur 2 semaine
-        console.log(json.forecast);
-        let wrapper = document.getElementById("wrapper");
-        // wrapper.textContent = json.city.name;
+        let weatherForecast = [];
+        weatherForecast.push(json.forecast);
+        weeksWeather(weatherForecast[0]);
     })
+}
+
+function titleCity(city) {
+    let results = document.getElementById("results");
+    console.log(city);
+}
+
+function weeksWeather(weather) {
+    let results = document.getElementById("results");
+    console.log(weather);
 }
 
 init();
