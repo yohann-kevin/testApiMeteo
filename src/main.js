@@ -1,5 +1,6 @@
 const body = document.getElementById("main");
 
+// initialise le programme
 function init() {
     let input = document.createElement("input");
     input.type = "text";
@@ -18,6 +19,7 @@ function init() {
     detectSearch(input, btn);
 }
 
+// détect si l'utilisateur cherche une ville
 function detectSearch(input, btn) {
     input.addEventListener("keyup", function () {
         let cityRead = input.value;
@@ -29,6 +31,7 @@ function detectSearch(input, btn) {
     });
 }
 
+// fonction permmettant de chercher une vile grace l'api data.gouv
 function searchCity(cityRead) {
     let wrapper = document.getElementById("wrapper");
     wrapper.innerHTML = "";
@@ -52,18 +55,25 @@ function searchCity(cityRead) {
     })
 }
 
+// lance l'api
 function launchApi(element, wrapper) {
     document.getElementById("inputCity").value = element.name;
     wrapper.innerHTML = "";
-    // searchMeteoApi(element.citycode);
+    searchMeteoApi(element.citycode);
 }
 
+// api meteo concept
 function searchMeteoApi(insee) {
     let link = "https://api.meteo-concept.com/api/forecast/daily?token=";
     fetch(link + token + "&insee=" + insee).then(function (response) {
         return response.json();
     }).then(function (json) {
-        console.log(json);
+        // information ville
+        console.log(json.city)
+        // prévision météo sur 2 semaine
+        console.log(json.forecast);
+        let wrapper = document.getElementById("wrapper");
+        // wrapper.textContent = json.city.name;
     })
 }
 
