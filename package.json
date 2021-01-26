@@ -1,0 +1,23 @@
+{
+  "name": "testapimeteo",
+  "version": "1.0.0",
+  "description": "little program weather forecast with api meteo concept",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yohann-kevin/testApiMeteo.git"
+  },
+  "keywords": [
+    "Weather",
+    "Forecast"
+  ],
+  "author": "PERRIGUEY Yohann",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yohann-kevin/testApiMeteo/issues"
+  },
+  "homepage": "https://github.com/yohann-kevin/testApiMeteo#readme"
+}
