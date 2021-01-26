@@ -2,6 +2,7 @@ const body = document.getElementById("main");
 
 // initialise le programme
 function init() {
+    dynamicFavicon();
     let input = document.createElement("input");
     input.type = "text";
     input.id = "inputCity"
@@ -17,6 +18,19 @@ function init() {
     body.appendChild(btn);
     body.appendChild(div);
     detectSearch(input, btn);
+}
+
+function dynamicFavicon() {
+    let favicon = document.getElementById("favicon");
+    let sunnyLink = "./images/weather/png/044-sunny.png";
+    let moonLink = "./images/weather/png/047-crescent-moon.png";
+    let date = new Date();
+    let hours = date.getHours();
+    if (hours >= 6 && hours < 18) {
+        favicon.href = sunnyLink;
+    } else if (hours >= 18 || hours < 6) {
+        favicon.href = moonLink;
+    }
 }
 
 // détect si l'utilisateur cherche une ville
@@ -81,12 +95,12 @@ function searchMeteoApi(insee) {
 
 function titleCity(city) {
     let results = document.getElementById("results");
-    console.log(city);
+    // console.log(city);
 }
 
 function weeksWeather(weather) {
     let results = document.getElementById("results");
-    console.log(weather);
+    // console.log(weather);
 }
 
 init();
