@@ -22,7 +22,7 @@ function init() {
 
 function dynamicFavicon() {
     let favicon = document.getElementById("favicon");
-    let sunnyLink = "./images/weather/png/044-sunny.png";
+    let sunnyLink = "./images/weather/png/basics/044-sunny.png";
     let moonLink = "./images/weather/png/047-crescent-moon.png";
     let date = new Date();
     let hours = date.getHours();
@@ -95,12 +95,60 @@ function searchMeteoApi(insee) {
 
 function titleCity(city) {
     let results = document.getElementById("results");
-    // console.log(city);
+    let h2 = document.createElement("h2");
+    h2.textContent = city.name;
+    results.appendChild(h2);
 }
 
 function weeksWeather(weather) {
     let results = document.getElementById("results");
-    // console.log(weather);
+    let img = document.createElement("img");
+    let weatherCode = weather[0].weather;
+    console.log(weatherCode);
+    if (weatherCode === 0) {
+        // soleil 044-sunny.png
+        console.log("sun");
+        img.src = "../images/weather/png/basics/044-sunny.png";
+    } else if (weatherCode >= 1 && weatherCode <= 2) {
+        // peut nuageux 010-cloudy-day.png
+        console.log("peut nuageux");
+        img.src = "../images/weather/png/basics/010-cloudy-day.png";
+    } else if (weatherCode >= 3 && weatherCode <= 5) {
+        //  nuageux 026-cloud.png
+        console.log("nuageux");
+        img.src = "../images/weather/png/basics/026-cloud.png";
+    } else if (weatherCode >= 6 && weatherCode <= 7) {
+        // brouillard 027-fog.png
+        console.log("brouillard");
+        img.src = "../images/weather/png/basics/027-fog.png";
+    } else if (weatherCode >= 10 && weatherCode <= 15 || weatherCode >= 40 && weatherCode <= 48 || weatherCode >= 210 && weatherCode <= 212) {
+        // pluie 023-rain.png
+        console.log("pluie");
+        img.src = "images/weather/png/basics/023-rain.png";
+    } else if (weatherCode === 16) {
+        // brume undefined image
+        console.log("brume");
+    } else if (weatherCode >= 20 && weatherCode <= 22 || weatherCode >= 60 && weatherCode <= 68 || weatherCode >= 220 && weatherCode <= 222) {
+        // neige 018-snowfall.png
+        console.log("neige");
+        img.src = "images/weather/png/basics/018-snowfall.png";
+    } else if (weatherCode >= 30 && weatherCode <= 32 || weatherCode >= 70 && weatherCode <= 78 || weatherCode >= 230 && weatherCode <= 232) {
+        // neige + pluie undefined image
+        console.log("neige et pluie mêlées");
+    } else if (weatherCode >= 100 && weatherCode <= 128) {
+        // orage 032-bolt.png
+        console.log("orage");
+        img.src = "images/weather/png/basics/032-bolt.png";
+    } else if (weatherCode >= 130 && weatherCode <= 142) {
+        // orage + pluie 034-rain.png
+        console.log("orage et pluie");
+        img.src = "images/weather/png/basics/034-rain.png";
+    } else if (weatherCode === 235) {
+        // grêle 013-hail.png
+        console.log("grêle");
+        img.src = "images/weather/png/basics/013-hail.png";
+    }
+    results.appendChild(img);
 }
 
 init();
